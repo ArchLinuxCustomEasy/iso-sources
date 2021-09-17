@@ -33,7 +33,7 @@ handleError() {
 }
 
 isRootUser() {
-  if [[ ! "$EUID" = 0 ]]; then 
+  if [[ ! "$EUID" = 0 ]]; then
     printMessage "Please Run As Root"
     exit 0
   fi
@@ -69,31 +69,43 @@ runMkarchiso() {
   mkarchiso -v -w ${workDirectory} -o ${outDirectory} ${sourcesDir}
 }
 
-# Cleanup before build
-preBuild() {
+cleanUpWorkspace() {
   removeDirectory "${sourcesDir}"
   removeDirectory "${outDirectory}"
   removeDirectory "${workDirectory}"
   sleep .5
-  printMessage "Create archiso directory"
+}
+
+preBuild() {
+  cleanUpWorkspace
+  printMessage "Create ${sourcesDir}"
   mkdir -p ${sourcesDir}
-  sleep .5  
+  sleep .5
+}
+
+prepareWorkspace() {
+  preBuild
+  copyFiles "/usr/share/archiso/configs/releng/*" "${sourcesDir}" "Copy archiso files from the system to the local archiso directory"
+  copyFiles "${customFiles}*" "${sourcesDir}" "Copy custom files in archiso directory"
+  git clone https://github.com/ArchLinuxCustomEasy/scripts.git ${sourcesDir}/airootfs/root/scripts
+  changeOwner "root:root" "${sourcesDir}"
+}
+
+postBuild() {
+  printMessage "Copy iso from ${outDirectory} to ${workspace}"
+  cp ${outDirectory}alice-*.iso $(pwd)
+  cleanUpWorkspace
+  changeOwner "1000:1000" "$(pwd)"
 }
 
 main() {
   handleError
   isRootUser
-  preBuild
-  copyFiles "/usr/share/archiso/configs/releng/*" ${sourcesDir} "Copy archiso files from the system to the local archiso directory"
-  copyFiles "${customFiles}*" "${sourcesDir}" "Copy custom files in archiso directory"
-  git clone https://github.com/ArchLinuxCustomEasy/scripts.git ${sourcesDir}/airootfs/root/scripts
-  changeOwner "root:root" "${sourcesDir}"
+  prepareWorkspace
   runMkarchiso
-  changeOwner "1000:1000" "$(pwd)"
-
-  printMessage "All is done!"
-
-  exit 0
+  postBuild
 }
 
 time main
+
+exit 0
