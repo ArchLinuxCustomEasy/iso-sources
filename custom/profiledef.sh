@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 
 iso_name="alice"
-iso_label="alice_$(date +%Y%m%d)"
+iso_label="alice-$(date +%Y%m%d)"
 iso_publisher="Arch LInux Custom Easy <https://github.com/custom-archlinux>"
 iso_application="Arch LInux Custom Easy Live/Rescue CD"
 iso_version="$(date +%Y.%m.%d)"
