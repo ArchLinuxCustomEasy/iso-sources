@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Name: buildIso.sh
-# Description: Build an ISO image of ALICE base on custom settings
-# Author: Tuxi Metal <tuximetal[at]lgdweb[dot]fr>
-# Url: https://github.com/custom-archlinux/iso-sources
+# Description: Build an ISO image of ALICE based on custom settings
+# Author: Titux Metal <tituxmetal[at]lgdweb[dot]fr>
+# Url: https://github.com/ArchLinuxCustomEasy/iso-sources
 # Version: 1.0
-# Revision: 2021.06.27
+# Revision: 2021.09.17
 # License: MIT License
 
 workspace="$HOME/ALICE-workspace"
