@@ -13,6 +13,7 @@ sourcesDir="$(pwd)/archiso/"
 customFiles="$(pwd)/custom/"
 outDirectory="$(pwd)/out/"
 workDirectory="$(pwd)/work/"
+aliceScriptsRepo="https://github.com/ArchLinuxCustomEasy/scripts.git"
 logFile="$(pwd)/$(date +%T).log"
 
 # Helper function for printing messages $1 The message to print
@@ -87,7 +88,8 @@ prepareWorkspace() {
   preBuild
   copyFiles "/usr/share/archiso/configs/releng/*" "${sourcesDir}" "Copy archiso files from the system to the local archiso directory"
   copyFiles "${customFiles}*" "${sourcesDir}" "Copy custom files in archiso directory"
-  git clone https://github.com/ArchLinuxCustomEasy/scripts.git ${sourcesDir}/airootfs/root/scripts
+  printMessage "Clone Alice scripts repository in archiso directory"
+  git clone ${aliceScriptsRepo} ${sourcesDir}/airootfs/root/scripts
   changeOwner "root:root" "${sourcesDir}"
 }
 
