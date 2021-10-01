@@ -5,7 +5,7 @@
 # Author: Titux Metal <tituxmetal[at]lgdweb[dot]fr>
 # Url: https://github.com/ArchLinuxCustomEasy/iso-sources
 # Version: 1.0
-# Revision: 2021.09.17
+# Revision: 2021.10.01
 # License: MIT License
 
 workspace="/home/$(logname)/ALICE-workspace/"
