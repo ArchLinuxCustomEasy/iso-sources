@@ -8,9 +8,10 @@
 # Revision: 2021.09.17
 # License: MIT License
 
-workspace="$HOME/ALICE-workspace"
+workspace="/home/$(logname)/ALICE-workspace/"
 sourcesDir="$(pwd)/archiso/"
 customFiles="$(pwd)/custom/"
+imgStorage="/home/$(logname)/virt-manager/iso/"
 outDirectory="$(pwd)/out/"
 workDirectory="$(pwd)/work/"
 aliceScriptsRepo="https://github.com/ArchLinuxCustomEasy/scripts.git"
@@ -95,7 +96,7 @@ prepareWorkspace() {
 
 postBuild() {
   printMessage "Copy iso from ${outDirectory} to ${workspace}"
-  cp ${outDirectory}alice-*.iso $(pwd)
+  su - $(logname) -c "cp -fv ${outDirectory}alice-*.iso ${imgStorage}"
   cleanUpWorkspace
   changeOwner "1000:1000" "$(pwd)"
 }
